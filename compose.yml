@@ -1,0 +1,29 @@
+services:
+  app:
+    build: .
+    container_name: hw6-server
+    environment:
+      WEB_PORT: 3000
+      SOCKET_PORT: 5000
+      MONGO_URI: "mongodb://root:qwerty@mongo:27017/?authSource=admin"
+      MONGO_DB: "messagesDB"
+      MONGO_COLLECTION: "messages"
+      LAST_MESSAGES_COUNT: 10
+    ports:
+      - "3000:3000"
+    depends_on:
+      - mongo
+
+  mongo:
+    image: mongo:5.0
+    container_name: hw6-mongo
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: qwerty
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongodata:/data/db
+
+volumes:
+  mongodata:
